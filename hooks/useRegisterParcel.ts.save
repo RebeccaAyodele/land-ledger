@@ -1,0 +1,1 @@
+grep -r "getRecommendedAddress" node_modules/@ckb-ccc/core/dist/*.d.ts | head -20
