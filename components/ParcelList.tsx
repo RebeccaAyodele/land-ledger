@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const ParcelMap = dynamic(() => import("./ParcelMap"), { ssr: false });
 import { useGetParcels, OwnedParcel } from "@/hooks/useGetParcels";
 import { useTransferParcel } from "@/hooks/useTransferParcel";
 import { ccc } from "@ckb-ccc/connector-react";
@@ -78,6 +81,8 @@ export default function ParcelList() {
         </button>
       </div>
 
+      <ParcelMap parcels={parcels} />
+
       {error && <p className="text-sm text-red-500">{error}</p>}
 
       {parcels.length === 0 && !loading && !error && (
@@ -96,7 +101,7 @@ export default function ParcelList() {
           {transferTarget === i ? (
             <div className="flex flex-col gap-2 mt-1">
               <input
-                className="border p-2 rounded text-black text-sm"
+                className="border border-white/20 bg-white/10 p-2 rounded text-white text-sm placeholder:text-white/40"
                 placeholder="Recipient address"
                 value={transferAddress}
                 onChange={(e) => setTransferAddress(e.target.value)}

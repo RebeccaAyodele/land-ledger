@@ -5,6 +5,8 @@ import { ccc } from "@ckb-ccc/connector-react";
 export interface LandParcel {
   parcelId: string;
   location: string;
+  latitude: number;
+  longitude: number;
   deedHash: string;
   owner: string;
 }

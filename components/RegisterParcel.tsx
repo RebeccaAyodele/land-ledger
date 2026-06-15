@@ -11,6 +11,8 @@ export default function RegisterParcel() {
   const [parcelId, setParcelId] = useState("");
   const [location, setLocation] = useState("");
   const [deedHash, setDeedHash] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +27,19 @@ export default function RegisterParcel() {
       return;
     }
 
+    if (!parcelId || !location || !deedHash || !latitude || !longitude) {
+      setStatus("Fill in all fields.");
+      return;
+    }
+
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+
+    if (isNaN(lat) || isNaN(lng)) {
+      setStatus("Latitude and longitude must be valid numbers.");
+      return;
+    }
+
     setLoading(true);
     setStatus("Submitting transaction...");
 
@@ -34,6 +49,8 @@ export default function RegisterParcel() {
       const parcel: LandParcel = {
         parcelId,
         location,
+        latitude: lat,
+        longitude: lng,
         deedHash,
         owner,
       };
@@ -51,19 +68,31 @@ export default function RegisterParcel() {
     <div className="flex flex-col gap-3 w-full max-w-md">
       <h2 className="text-xl font-semibold">Register Land Parcel</h2>
       <input
-        className="border p-2 rounded text-black"
+        className="border border-white/20 bg-white/10 p-2 rounded text-white placeholder:text-white/40"
         placeholder="Parcel ID"
         value={parcelId}
         onChange={(e) => setParcelId(e.target.value)}
       />
       <input
-        className="border p-2 rounded text-black"
+        className="border border-white/20 bg-white/10 p-2 rounded text-white placeholder:text-white/40"
         placeholder="Location description"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
       />
       <input
-        className="border p-2 rounded text-black"
+        className="border border-white/20 bg-white/10 p-2 rounded text-white placeholder:text-white/40"
+        placeholder="Latitude"
+        value={latitude}
+        onChange={(e) => setLatitude(e.target.value)}
+      />
+      <input
+        className="border border-white/20 bg-white/10 p-2 rounded text-white placeholder:text-white/40"
+        placeholder="Longitude"
+        value={longitude}
+        onChange={(e) => setLongitude(e.target.value)}
+      />
+      <input
+        className="border border-white/20 bg-white/10 p-2 rounded text-white placeholder:text-white/40"
         placeholder="Deed hash"
         value={deedHash}
         onChange={(e) => setDeedHash(e.target.value)}
