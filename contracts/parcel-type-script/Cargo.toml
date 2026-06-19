@@ -1,0 +1,16 @@
+[package]
+name = "parcel-type-script"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "parcel-type-script"
+path = "src/main.rs"
+
+[dependencies]
+ckb-std = "0.16"
+
+[profile.release]
+overflow-checks = true
+opt-level = "s"
+strip = "symbols"

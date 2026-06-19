@@ -1,5 +1,6 @@
 "use client";
 
+import { encodeParcel } from "@/lib/parcelCodec";
 import { ccc } from "@ckb-ccc/connector-react";
 
 export interface LandParcel {
@@ -19,8 +20,7 @@ export function useRegisterParcel() {
       throw new Error("No signer connected");
     }
 
-    const json = JSON.stringify(parcel);
-    const dataHex = ccc.hexFrom(ccc.bytesFrom(json, "utf8"));
+    const dataHex = encodeParcel(parcel);
 
     const lock = (await signer.getRecommendedAddressObj()).script;
 

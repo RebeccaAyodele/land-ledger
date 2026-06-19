@@ -2,6 +2,7 @@
 
 import { ccc } from "@ckb-ccc/connector-react";
 import { LandParcel } from "./useRegisterParcel";
+import { decodeParcel } from "@/lib/parcelCodec";
 
 export interface OwnedParcel {
     parcel: LandParcel;
@@ -24,7 +25,7 @@ export function useGetParcels() {
 
         for await (const cell of signer.findCells(
             {},
-            true 
+            true
         )) {
             const dataHex = cell.outputData;
 
@@ -33,25 +34,15 @@ export function useGetParcels() {
             }
 
             try {
-                const bytes = ccc.bytesFrom(dataHex);
-                const json = new TextDecoder().decode(bytes);
-                const parsed = JSON.parse(json);
-
-                if (
-                    typeof parsed.parcelId === "string" &&
-                    typeof parsed.location === "string" &&
-                    typeof parsed.deedHash === "string" &&
-                    typeof parsed.owner === "string"
-                ) {
-                    results.push({
-                        parcel: parsed as LandParcel,
-                        outPoint: {
-                            txHash: cell.outPoint.txHash,
-                            index: cell.outPoint.index.toString(),
-                        },
-                        capacity: ccc.fixedPointToString(cell.cellOutput.capacity),
-                    });
-                }
+                const parsed = decodeParcel(dataHex);
+                results.push({
+                    parcel: parsed,
+                    outPoint: {
+                        txHash: cell.outPoint.txHash,
+                        index: cell.outPoint.index.toString(),
+                    },
+                    capacity: ccc.fixedPointToString(cell.cellOutput.capacity),
+                });
             } catch {
                 continue;
             }
