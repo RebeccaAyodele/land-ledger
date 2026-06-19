@@ -2,6 +2,8 @@
 
 import { ccc } from "@ckb-ccc/connector-react";
 import { LandParcel } from "./useRegisterParcel";
+import { encodeParcel } from "@/lib/parcelCodec";
+import { PARCEL_TYPE_SCRIPT, PARCEL_TYPE_SCRIPT_OUT_POINT } from "@/lib/typeScriptConfig";
 
 export function useTransferParcel() {
     const signer = ccc.useSigner();
@@ -27,21 +29,19 @@ export function useTransferParcel() {
             owner: newOwnerAddress,
         };
 
-        const json = JSON.stringify(updatedParcel);
-        const dataHex = ccc.hexFrom(ccc.bytesFrom(json, "utf8"));
+        const dataHex = encodeParcel(updatedParcel);
 
         const tx = ccc.Transaction.from({
-            inputs: [
+            cellDeps: [
                 {
-                    previousOutput: {
-                        txHash: outPoint.txHash,
-                        index: outPoint.index,
-                    },
+                    outPoint: PARCEL_TYPE_SCRIPT_OUT_POINT,
+                    depType: "code",
                 },
             ],
             outputs: [
                 {
                     lock: newLock,
+                    type: PARCEL_TYPE_SCRIPT,
                 },
             ],
             outputsData: [dataHex],

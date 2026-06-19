@@ -2,6 +2,7 @@
 
 import { encodeParcel } from "@/lib/parcelCodec";
 import { ccc } from "@ckb-ccc/connector-react";
+import { PARCEL_TYPE_SCRIPT, PARCEL_TYPE_SCRIPT_OUT_POINT } from "@/lib/typeScriptConfig";
 
 export interface LandParcel {
   parcelId: string;
@@ -25,9 +26,16 @@ export function useRegisterParcel() {
     const lock = (await signer.getRecommendedAddressObj()).script;
 
     const tx = ccc.Transaction.from({
+      cellDeps: [
+        {
+          outPoint: PARCEL_TYPE_SCRIPT_OUT_POINT,
+          depType: "code",
+        },
+      ],
       outputs: [
         {
           lock,
+          type: PARCEL_TYPE_SCRIPT,
         },
       ],
       outputsData: [dataHex],
