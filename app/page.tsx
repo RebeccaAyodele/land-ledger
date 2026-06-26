@@ -1,34 +1,29 @@
 "use client"
 
-import Image from "next/image";
 import ConnectWallet from "@/components/ConnectWallet";
 import RegisterParcel from "@/components/RegisterParcel";
 import ParcelList from "@/components/ParcelList";
-import DeployTypeScript from "@/components/DeployTypeScript";
 
 export default function Home() {
-
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        
-        <div className="flex gap-4 items-center place-self-center">
-          
-          <ConnectWallet></ConnectWallet>
-          <a
-            className="rounded-full border border-solid border-black/[1] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://docs.ckbccc.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between mb-12">
+        <div>
+          <h1 className="text-3xl font-bold">LandLedger</h1>
+          <p className="text-sm opacity-60 mt-1">
+            Decentralized land title registry on Nervos CKB
+          </p>
         </div>
-        <RegisterParcel></RegisterParcel>
-        <ParcelList></ParcelList>
+        <ConnectWallet />
+      </header>
+
+      <main className="flex flex-col gap-12 max-w-lg">
+        <RegisterParcel />
+        <ParcelList />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        
+
+      <footer className="mt-20 text-xs opacity-40 text-center">
+        Built on Nervos CKB testnet — SDG 16
       </footer>
     </div>
   );
