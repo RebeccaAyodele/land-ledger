@@ -38,6 +38,14 @@ export function useTransferParcel() {
                     depType: "code",
                 },
             ],
+            inputs: [
+                {
+                    previousOutput: {
+                        txHash: outPoint.txHash,
+                        index: outPoint.index,
+                    },
+                },
+            ],
             outputs: [
                 {
                     lock: newLock,
